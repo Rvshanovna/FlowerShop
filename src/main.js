@@ -1,5 +1,4 @@
 import express from "express";
-
 import { envConfig } from "./config/index.js";
 import { connectDB } from "./config/db.js";
 import { ApiError } from "./utils/api.error.js";
