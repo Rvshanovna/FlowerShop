@@ -6,7 +6,7 @@ import { connectDB } from "./config/db.js";
 import { ApiError } from "./utils/api.error.js";
 import { errorHandler } from "./middlewares/error-handler.js";
 import { createSuperAdmin } from "./helpers/create-superadmin.js";
-import router from "./routes/admin.route.js";
+import routes from "./routes/index.route.js";
 
 const app = express();
 const PORT = +envConfig.PORT || 5000;
@@ -21,7 +21,7 @@ await connectDB();
 await createSuperAdmin();
 
 // ROUTES
-app.use('/api/admin', router);
+app.use('/api', routes);
 
 // URL (404) HANDLER
 app.all(/(.*)/, (_req, _res, next) => {
