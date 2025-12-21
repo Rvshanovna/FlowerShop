@@ -2,7 +2,7 @@ import { BaseController } from "./base.controller.js";
 import Admin from "../schemas/users.schema.js";
 import { catchAsync } from "../middlewares/catch-async.js";
 import crypto from "../utils/crypto.js";
-import { successRes } from "../utils/success-Res.js";
+import { successRes } from "../utils/success-res.js";
 import { Roles } from "../enums/index.js";
 import { ApiError } from "../utils/api.error.js";
 

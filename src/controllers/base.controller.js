@@ -2,7 +2,7 @@ import { isValidObjectId } from "mongoose";
 
 import { catchAsync } from "../middlewares/catch-async.js";
 import { ApiError } from "../utils/api.error.js";
-import { successRes } from "../utils/success-Res.js";
+import { successRes } from "../utils/success-res.js";
 
 export class BaseController {
   constructor(model, relation = null) {
