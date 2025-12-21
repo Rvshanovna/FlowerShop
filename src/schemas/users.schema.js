@@ -5,7 +5,7 @@ const userSchema = new Schema(
   {
     fullName: { type: String },
     phoneNumber: { type: String, required: true, unique: true },
-    email: { type: String, unique: true },
+    email: { type: String, unique: true, required: true },
     username: { type: String, required: true},
     hashedPassword: { type: String, required: true },
     address: { type: String },
@@ -13,16 +13,17 @@ const userSchema = new Schema(
     gender: { type: String, enum: [Genders.MALE, Genders.FEMALE] },
     isActive: { type: Boolean, default: true },
     role: {
-      type: String,
-      enum: [
-        Roles.SUPERADMIN, 
-        Roles.ADMIN, 
-        Roles.SELLER,
-        Roles.CUSTOMER
-      ], required: true,
-      default: "Customer"
-    },
-    isEmailVerified: { type: Boolean, default: false }
+    type: String,
+    enum: [
+      Roles.SUPERADMIN, 
+      Roles.ADMIN, 
+      Roles.SELLER,
+      Roles.CUSTOMER
+    ],
+  required: true,
+  default: Roles.CUSTOMER
+},
+    isEmailVerified: { type: Boolean }
   },
   {
     timestamps: true,

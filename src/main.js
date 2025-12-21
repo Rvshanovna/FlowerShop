@@ -1,4 +1,6 @@
 import express from "express";
+import cookieParser from "cookie-parser";
+
 import { envConfig } from "./config/index.js";
 import { connectDB } from "./config/db.js";
 import { ApiError } from "./utils/api.error.js";
@@ -10,6 +12,7 @@ const app = express();
 const PORT = +envConfig.PORT || 5000;
 
 app.use(express.json());
+app.use(cookieParser());
 
 // Database connection
 await connectDB();

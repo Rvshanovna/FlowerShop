@@ -6,15 +6,17 @@ import crypto from '../utils/crypto.js';
 export async function createSuperAdmin() {
     try {
         const existsSuperAdmin = await User.findOne({ role: Roles.SUPERADMIN });
-        if(!existsSuperAdmin){
-           const superAdmin = await User.create({
-            role: Roles.SUPERADMIN,
-            phoneNumber: envConfig.SUPERADMIN.PHONE,
-            hashedPassword: await crypto.decode(envConfig.SUPERADMIN.PASSWORD)
-           });
-           console.log('Super Admin created successfully', superAdmin);
+        if (!existsSuperAdmin) {
+            const superAdmin = await User.create({
+                role: Roles.SUPERADMIN,
+                phoneNumber: envConfig.SUPERADMIN.PHONE,
+                email: envConfig.SUPERADMIN.EMAIL,
+                username: 'superadmin',
+                hashedPassword: await crypto.decode(envConfig.SUPERADMIN.PASSWORD)
+            });
+            console.log('Super Admin created successfully', superAdmin);
         }
     } catch (error) {
-        console.error('Error on creating the Super admin', error)
+        console.error('Error on creating the Super admin', error);
     }
-};
+}
