@@ -1,13 +1,10 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-import adminRoutes from "./admin.route.js";
-import deliveryRoutes from "./delivery.route.js";
-import reviewRoutes from "./review.route.js";
+import adminRouter from './admin.route.js';
 
 const router = Router();
 
-router.use("/admin", adminRoutes);
-router.use("/delivery", deliveryRoutes);
-router.use("/review", reviewRoutes);
-
+router 
+    .use('/admin', adminRouter)
+    
 export default router;

@@ -9,26 +9,20 @@ import { ApiError } from "../utils/api.error.js";
 class AdminController extends BaseController {
   create = catchAsync(async (req, res) => {
     const { phoneNumber, email, username, password } = req.body;
-
     await this._isExists({ phoneNumber }, "Phone number");
-
     if (email) {
       await this._isExists({ email }, "Email adress");
     }
-
     if (username) {
       await this._isExists({ username }, "Username");
     }
-
     const hashedPassword = await crypto.decode(password);
     delete req.body.password;
-
     const newAdmin = await Admin.create({
       ...req.body,
       hashedPassword,
       role: Roles.ADMIN,
     });
-
     return successRes(res, newAdmin, 201);
   });
 
@@ -56,19 +50,52 @@ class AdminController extends BaseController {
     }
 
     let hashedPassword = admin.hashedPassword;
-    if (password) {
+    if (password && req.user.role === Roles.SUPERADMIN) {
       hashedPassword = await crypto.decode(password);
       delete req.body?.password;
     }
-    const newAdmin = await Admin.findByIdAndUpdate(
+    const updatedAdmin = await Admin.findByIdAndUpdate(
       id,
       {
         hashedPassword,
         ...req.body,
       },{ new: true }
     );
-    return successRes(res, newAdmin, 200);
+    return successRes(res, updatedAdmin, 200);
   });
+
+  updatePassword = catchAsync(async (req, res) => {
+    const id = req.params.id;
+    const admin = await this._getById(id);
+    const { oldPassword, newPassword } = req.body;
+
+    if (!newPassword) {
+        throw new ApiError('New password is required', 400);
+    }
+    if (!oldPassword && req.user.role === Roles.ADMIN) {
+        throw new ApiError('Old password is required', 400);
+    }
+
+    if (oldPassword) {
+        const isMatchPass = await crypto.encode(oldPassword, admin.hashedPassword);
+        if (!isMatchPass) {
+            throw new ApiError('Old password does not match', 400);
+        }
+    }
+
+    const hashedPassword = await crypto.decode(newPassword);
+
+    const updatedAdmin = await Admin.findByIdAndUpdate(
+        id,
+        { hashedPassword },
+        { new: true }
+    );
+
+    return successRes(res, updatedAdmin);
+});
+
+
+
   remove = catchAsync(async(req, res) => {
     const id = req.params.id;
     const admin = await this._getById(id);

@@ -21,7 +21,7 @@ await connectDB();
 await createSuperAdmin();
 
 // ROUTES
-app.use('/api/admin', router);
+app.use('/api', routes);
 
 // URL (404) HANDLER
 app.all(/(.*)/, (_req, _res, next) => {

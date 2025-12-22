@@ -1,46 +1,67 @@
 import Joi from "joi";
 import { Genders } from "../enums/index.js";
 
+const _phoneRegex = /^\+[1-9]\d{1,14}$/;
+const _passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?':{}|<>]).{8,}$/;
+
 class UserValidation {
-    _phoneRegex = /^\+[1-9]\d{1,14}$/;
-    _passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?':{}|<>]).{8,}$/;
 
     create(data){
-        const schema = Joi.object({
+        const user = Joi.object({
             fullName: Joi.string().optional(),
-            phoneNumber: Joi.string().pattern(this._phoneRegex).optional(),
+            phoneNumber: Joi.string().pattern(_phoneRegex).optional(),
             email: Joi.string().email().optional(),
             username: Joi.string().min(4).optional(),
-            password: Joi.string().pattern(this._passwordRegex).required(),
+            password: Joi.string().pattern(_passwordRegex).required(),
             address: Joi.string().optional(),
             image: Joi.string().optional(),
             gender: Joi.string().valid(Genders.MALE, Genders.FEMALE).optional()
         });
-        return schema.validate(data, { abortEarly: false });
+
+        return user.validate(data, { abortEarly: false });
     }
 
     update(data){
-        const schema = Joi.object({
+        const user = Joi.object({
             fullName: Joi.string().optional(),
-            phoneNumber: Joi.string().pattern(this._phoneRegex).required(),
+            phoneNumber: Joi.string().pattern(_phoneRegex).required(),
             email: Joi.string().email().required(),
             username: Joi.string().min(4).optional(),
-            password: Joi.string().pattern(this._passwordRegex).optional(),
+            password: Joi.string().pattern(_passwordRegex).optional(),
             address: Joi.string().optional(),
             image: Joi.string().optional(),
             gender: Joi.string().valid(Genders.MALE, Genders.FEMALE).optional(),
             isActive: Joi.bool().optional()
         });
-        return schema.validate(data, { abortEarly: false });
+
+        return user.validate(data, { abortEarly: false });
     }
 
     signin(data){
-        const schema = Joi.object({
+        const user = Joi.object({
             email: Joi.string().required(),
             password: Joi.string().required()
         });
-        return schema.validate(data, { abortEarly: false });
+
+        return user.validate(data, { abortEarly: false });
     }
+
+    confirmOTP(data){
+        const user = Joi.object({
+            email: Joi.string().required(),
+            otp: Joi.string().required()
+        });
+
+        return user.validate(data, { abortEarly: false });
+    }
+
+    updatePassword(data){
+    const user = Joi.object({
+        oldPassword: Joi.string().optional(),
+        newPassword: Joi.string().pattern(_passwordRegex).required() 
+    });
+    return user.validate(data, { abortEarly: false });
+}
 }
 
 export default new UserValidation();
