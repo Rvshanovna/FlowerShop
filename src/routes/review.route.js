@@ -1,6 +1,6 @@
 import { Router } from "express";
 import controller from "../controllers/review.controller.js";
-import reviewValid from "../validations/review.validation.js";
+import reviewValid from "../validation/review.validation.js";
 import { validator } from "../middlewares/validation.handle.js";
 
 const router = Router();

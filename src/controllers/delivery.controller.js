@@ -1,7 +1,7 @@
 import { BaseController } from "./base.controller.js";
 import Delivery from "../schemas/delivery.schema.js";
 import { catchAsync } from "../middlewares/catch-async.js";
-import { successRes } from "../utils/sucess-res.js";
+import { successRes } from "../utils/success-res.js";
 
 class DeliveryController extends BaseController {
   create = catchAsync(async (req, res) => {

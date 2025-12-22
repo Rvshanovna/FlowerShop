@@ -1,6 +1,6 @@
 import { Router } from "express";
 import controller from "../controllers/delivery.controller.js";
-import deliveryValid from "../validations/delivery.validation.js";
+import deliveryValid from "../validation/delivery.validation.js";
 import { validator } from "../middlewares/validation.handle.js";
 
 const router = Router();
