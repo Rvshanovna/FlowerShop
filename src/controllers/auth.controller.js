@@ -1,32 +1,48 @@
 import { catchAsync } from "../middlewares/catch-async.js";
 import { ApiError } from "../utils/api.error.js";
-import { successRes } from "../utils/success-Res.js";
+import { successRes } from "../utils/success-res.js";
 import User from "../schemas/users.schema.js";
 import crypto from "../utils/crypto.js";
 import token from "../utils/token.js";
+import { getCache, setCache } from "../helpers/cache-control.js";
+import { generateOTP } from "../utils/generate-otp.js";
+import { sendMail } from "../utils/mail-service.js";
 
 class AuthController {
     signIn = catchAsync(async (req, res) => {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
         const isMatchPass = await crypto.encode( password, user?.hashedPassword || '');
-        if (!user) {
+        if (!user || !isMatchPass) {
             throw new ApiError('Email address or password invalid', 400);
         }
-        
-        if (!isMatchPass) {
-            throw new ApiError('Email address or password invalid', 400);
+        const otp = generateOTP();
+        setCache(email, otp);
+        await sendMail(email, otp);
+        return successRes(res, {
+            otp
+        });
+    })
+
+    confirmOTP = catchAsync(async(req, res) => {
+        const { email, otp } = req.body;
+        const user = await User.findOne({ email });
+        if(!user){
+            throw new ApiError('Email is wrong', 404);
+        }
+        const cacheData = getCache(email);
+        if(!cacheData || cacheData != otp){
+            throw new ApiError('OTP is expired or incorrect', 400);
         }
         const payload = { id: user._id, role: user.role, isActive: user.isActive };
         const accessToken = token.getAccess(payload);
         const refreshToken = token.getRefresh(payload, res);
-
         return successRes(res, {
-            user,
-            accessToken,
-            refreshToken
+            accessToken, 
+            refreshToken,
+            user
         });
-    });
+    })
 
     getAccessToken = catchAsync(async (req, res) => {
         const refreshToken = req.cookies?.refreshToken;
