@@ -5,7 +5,6 @@ const _phoneRegex = /^\+[1-9]\d{1,14}$/;
 const _passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?':{}|<>]).{8,}$/;
 
 class UserValidation {
-
     create(data){
         const user = Joi.object({
             fullName: Joi.string().optional(),

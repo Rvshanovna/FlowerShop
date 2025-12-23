@@ -1,8 +1,6 @@
-import Product from '../schemas/product.schema.js'
-import { BaseController } from './base.controller.js'
+import Product from '../schemas/product.schema.js';
+import { BaseController } from './base.controller.js';
 
-class ProductController extends BaseController{
+class ProductController extends BaseController {}
 
-}
-
-export default new ProductController(Product, 'categoryId')
+export default new ProductController(Product, 'categoryId');

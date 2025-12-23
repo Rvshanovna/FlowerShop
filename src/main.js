@@ -6,7 +6,7 @@ import { connectDB } from "./config/db.js";
 import { ApiError } from "./utils/api.error.js";
 import { errorHandler } from "./middlewares/error-handler.js";
 import { createSuperAdmin } from "./helpers/create-superadmin.js";
-import router from "./routes/index.route.js";
+import routes from "./routes/index.route.js";
 
 const app = express();
 const PORT = +envConfig.PORT || 5000;

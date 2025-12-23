@@ -8,10 +8,10 @@ const router = Router();
 
 router
     .post('/', validator(categoryValid.create), controller.create)
-    .get("/",controller.findAll)
-    .get("/:id",controller.findOne)
-    .patch("/:id",controller.update)
-    .delete("/:id",controller.remove)
+    .get("/", controller.findAll)
+    .get("/:id", controller.findOne)
+    .patch("/:id", validator(categoryValid.update), controller.update)
+    .delete("/:id", controller.remove)
 
 
 export default router;
