@@ -6,7 +6,7 @@ class OrderItemValidation {
             orderId: Joi.string().hex().length(24).required(),
             productId: Joi.string().hex().length(24).required(),            
             price:Joi.number().required(),
-            quantity:Joi.string().required(),
+            quantity:Joi.string().min(1).required(),
         })
         return schema.validate(data)
     }
