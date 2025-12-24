@@ -8,6 +8,8 @@ import categoryRouter from './category.route.js';
 import productRouter from "./product.route.js"
 import deliveryRouter from "./delivery.route.js"
 import reviewRouter from "./review.route.js";
+import orderRouter from "./order.route.js";
+import order_itemRoute from "./order-item.route.js";
 
 const router = Router();
 
@@ -20,5 +22,7 @@ router
    .use('/product', productRouter)
    .use('/delivery', deliveryRouter)
    .use('/review', reviewRouter)
+   .use('/order', orderRouter)
+   .use('/orderItem', order_itemRoute)
     
 export default router;

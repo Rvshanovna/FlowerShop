@@ -7,12 +7,20 @@ const orderSchema = new Schema(
       ref: "User",
       required: true
     },
-    totalPrice: { type: Number },
+    totalPrice: {
+      type: Number,
+      default: 0,
+      required: true
+    },
     status: {
       type: String,
-      enum: ["pending", "paid", "delivering", "delivered", "canceled"]
+      enum: ["pending", "paid", "delivering", "delivered", "canceled"],
+      default: "pending"
     },
-    address: { type: String }
+    address: {
+      type: String,
+      required: true
+    }
   },
   {
     timestamps: true,
@@ -22,7 +30,6 @@ const orderSchema = new Schema(
   }
 );
 
-// virtuals
 orderSchema.virtual("items", {
   ref: "OrderItem",
   localField: "_id",

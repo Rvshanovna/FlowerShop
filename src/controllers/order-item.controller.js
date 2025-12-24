@@ -2,7 +2,7 @@ import { BaseController } from "./base.controller.js";
 import Product from "../schemas/product.schema.js";
 import { catchAsync } from "../middlewares/catch-async.js";
 import Order from "../schemas/order.schema.js";
-import OrderItem from "../schemas/oreder_items.js";
+import OrderItem from "../schemas/order_items.js";
 import { successRes } from "../utils/success-res.js";
 import { ApiError } from "../utils/api.error.js";
 

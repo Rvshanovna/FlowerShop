@@ -12,7 +12,7 @@ class OrderValidation {
     }
 
     update(data){
-        const schema = Joi.object({            customerId: Joi.string().hex().length(24).required(),
+        const schema = Joi.object({
             customerId: Joi.string().hex().length(24).optional(),
             totalPrice:Joi.number().optional(),
             status:Joi.string().optional(),

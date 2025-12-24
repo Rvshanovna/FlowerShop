@@ -2,7 +2,7 @@ import { catchAsync } from '../middlewares/catch-async.js';
 import { ApiError } from '../utils/api.error.js';
 import token from "../utils/token.js";
 
-export const authGuard = catchAsync(async(req, res, next) => {
+export const authGuard = catchAsync(async(req, _res, next) => {
     const auth = req.headers?.authorization;
     if(!auth){
         throw new ApiError("User did not sign in", 401);
